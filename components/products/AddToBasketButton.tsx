@@ -11,7 +11,15 @@ import { useBasketStore } from '@/hooks/stores/useBasketStore';
 import { Button } from '@/components/ui/button';
 import { Minus, Plus } from 'lucide-react';
 
-export const AddToBasketButton = ({ product }: { product: Product }) => {
+type AddToBasketButtonProps = {
+  product: Product;
+  variant?: 'default' | 'basket-page';
+};
+
+export const AddToBasketButton = ({
+  product,
+  variant = 'default',
+}: AddToBasketButtonProps) => {
   const { items, addItem, clearAllItemsById, decrementItemById } =
     useBasketStore();
 
@@ -20,41 +28,41 @@ export const AddToBasketButton = ({ product }: { product: Product }) => {
     [items, product.id],
   );
 
-  console.log('items', items);
-
   return (
     <AnimatePresence>
       <motion.div layout className='flex w-full flex-col gap-4'>
         {/* Add to basket */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 10 }}
-          transition={{ duration: 0.2 }}
-          layout
-        >
-          <Button
-            className='relative w-full'
-            variant='default'
-            data-testid='add-to-basket-button'
-            onClick={() => addItem(product)}
+        {variant === 'default' && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            transition={{ duration: 0.2 }}
+            layout
           >
-            Add to basket
-            {firstItemInBasket && firstItemInBasket.quantity > 0 && (
-              <motion.span
-                data-testid='quantity-in-basket'
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-                transition={{ duration: 0.2 }}
-                layout
-                className='absolute -right-2 -top-2 aspect-square rounded-full bg-red-500 p-2 text-xs text-white'
-              >
-                {firstItemInBasket.quantity}
-              </motion.span>
-            )}
-          </Button>
-        </motion.div>
+            <Button
+              className='relative w-full'
+              variant='default'
+              data-testid='add-to-basket-button'
+              onClick={() => addItem(product)}
+            >
+              Add to basket
+              {firstItemInBasket && firstItemInBasket.quantity > 0 && (
+                <motion.span
+                  data-testid='quantity-in-basket'
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  transition={{ duration: 0.2 }}
+                  layout
+                  className='absolute -right-2 -top-2 aspect-square rounded-full bg-red-500 p-2 text-xs text-white'
+                >
+                  {firstItemInBasket.quantity}
+                </motion.span>
+              )}
+            </Button>
+          </motion.div>
+        )}
 
         {/* Basket Adjuster */}
         <motion.div
@@ -102,24 +110,26 @@ export const AddToBasketButton = ({ product }: { product: Product }) => {
         </motion.div>
 
         {/* Clear all items */}
-        {firstItemInBasket && firstItemInBasket.quantity > 1 && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-            transition={{ duration: 0.2 }}
-            layout
-          >
-            <Button
-              className='relative w-full'
-              variant='default'
-              data-testid='clear-basket-button'
-              onClick={() => clearAllItemsById(product.id)}
+        {variant === 'default' &&
+          firstItemInBasket &&
+          firstItemInBasket.quantity > 1 && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              transition={{ duration: 0.2 }}
+              layout
             >
-              Clear basket
-            </Button>
-          </motion.div>
-        )}
+              <Button
+                className='relative w-full'
+                variant='default'
+                data-testid='clear-basket-button'
+                onClick={() => clearAllItemsById(product.id)}
+              >
+                Clear basket
+              </Button>
+            </motion.div>
+          )}
       </motion.div>
     </AnimatePresence>
   );
