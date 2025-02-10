@@ -8,5 +8,5 @@ package-lock.json
 pnpm-lock.yaml
 /.vscode/
 /.idea/
-app/components/ui
+components/ui
 components.json
