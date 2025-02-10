@@ -1,5 +1,7 @@
 import { describe, it, expect, afterEach } from 'vitest';
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+
 import { Header } from '@/components/Header';
 
 describe('Header Component', () => {
@@ -12,12 +14,14 @@ describe('Header Component', () => {
     expect(screen.getByRole('navigation', { name: 'Top' })).toBeDefined();
   });
 
-  it('opens and closes the mobile menu', () => {
+  it('opens and closes the mobile menu', async () => {
+    const user = userEvent.setup();
+
     render(<Header />);
     const menuButton = screen.getByTestId('mobile-main-menu-button');
 
     // Open mobile menu
-    fireEvent.click(menuButton);
+    await user.click(menuButton);
     expect(screen.getByText('Mobile menu')).toBeDefined();
 
     // Close mobile menu by clicking the backdrop or close button
@@ -27,6 +31,7 @@ describe('Header Component', () => {
   it('displays large screen navigation', () => {
     render(<Header />);
     const categories = ['Women', 'Men'];
+
     categories.forEach((category) => {
       expect(screen.getByText(category)).toBeDefined();
     });
@@ -44,15 +49,17 @@ describe('Header Component', () => {
     expect(screen.queryByText('Search')).toBeDefined();
   });
 
-  it('toggles mobile currency selector', () => {
+  it('toggles mobile currency selector', async () => {
+    const user = userEvent.setup();
+
     render(<Header />);
     const menuButton = screen.getByRole('button', { name: 'Open menu' });
 
     // Open mobile menu
-    fireEvent.click(menuButton);
+    await user.click(menuButton);
 
     const currencySelect: HTMLSelectElement = screen.getByLabelText('Currency');
-    fireEvent.change(currencySelect, { target: { value: 'EUR' } });
+    await user.selectOptions(currencySelect, 'EUR');
 
     expect(currencySelect.value).toBe('EUR');
   });

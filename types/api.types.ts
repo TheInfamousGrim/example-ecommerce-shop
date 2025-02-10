@@ -14,6 +14,13 @@ export type Product = {
           amount: string;
           currencyCode: string;
         };
+        image: {
+          id: string;
+          url: string;
+          altText: string;
+          height: number;
+          width: number;
+        };
       };
     }[];
   };
@@ -26,6 +33,12 @@ export type MultipleProductsResponse = {
         node: Product;
       }[];
     };
+  };
+};
+
+export type SingleProductResponse = {
+  data: {
+    product: Product;
   };
 };
 

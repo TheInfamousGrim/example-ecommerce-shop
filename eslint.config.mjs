@@ -15,6 +15,11 @@ const eslintConfig = [
     'next/typescript',
     'eslint-config-prettier',
   ),
+  {
+    rules: {
+      '@next/next/no-img-element': 'off',
+    },
+  },
 ];
 
 export default eslintConfig;

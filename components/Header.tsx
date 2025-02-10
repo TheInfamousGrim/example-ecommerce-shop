@@ -19,6 +19,8 @@ import {
 import { Menu, CircleHelp, ShoppingBagIcon, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
+import { useBasketStore } from '@/hooks/stores/useBasketStore';
+
 const currencies = ['CAD', 'USD', 'AUD', 'EUR', 'GBP'];
 const navigation = {
   categories: [
@@ -104,6 +106,8 @@ const navigation = {
 
 export const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const { totalNumberOfItems } = useBasketStore();
 
   return (
     <>
@@ -324,7 +328,7 @@ export const Header = () => {
                           className='size-6 shrink-0 text-gray-400 group-hover:text-gray-500'
                         />
                         <span className='ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800'>
-                          0
+                          {totalNumberOfItems}
                         </span>
                         <span className='sr-only'>items in cart, view bag</span>
                       </a>

@@ -1,3 +1,4 @@
+import { ProductLink } from '@/components/products/ProductLink';
 import { MultipleProductsResponse } from '@/types/api.types';
 
 const collections = [
@@ -197,27 +198,10 @@ export default async function Home() {
 
             <div className='mt-6 grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-4 md:gap-y-0 lg:gap-x-8'>
               {multipleProducts.data.products.edges.map((product) => (
-                <div
+                <ProductLink
                   key={`trending-product-${product.node.id}`}
-                  className='group relative'
-                >
-                  <div className='h-56 w-full overflow-hidden rounded-md transition-all ease-in group-hover:opacity-75 lg:h-72 xl:h-80'>
-                    <img
-                      alt={product.node.title}
-                      src={product.node.featuredImage.url}
-                      className='size-full object-cover transition-all ease-in group-hover:scale-105'
-                    />
-                  </div>
-                  <h3 className='mt-4 text-sm text-gray-700'>
-                    <a href={product.node.id}>
-                      <span className='absolute inset-0' />
-                      {product.node.title}
-                    </a>
-                  </h3>
-                  <p className='mt-1 text-sm font-medium text-gray-900'>
-                    {product.node.variants.edges[0].node.price.amount}
-                  </p>
-                </div>
+                  product={product.node}
+                />
               ))}
             </div>
 
