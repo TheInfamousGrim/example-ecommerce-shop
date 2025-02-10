@@ -1,6 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
+
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -20,6 +23,8 @@ import { Menu, CircleHelp, ShoppingBagIcon, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 import { useBasketStore } from '@/hooks/stores/useBasketStore';
+
+import { cn } from '@/lib/utils';
 
 const currencies = ['CAD', 'USD', 'AUD', 'EUR', 'GBP'];
 const navigation = {
@@ -98,16 +103,15 @@ const navigation = {
       ],
     },
   ],
-  pages: [
-    { name: 'Company', href: '#' },
-    { name: 'Stores', href: '#' },
-  ],
+  pages: [{ name: 'Home', href: '/' }],
 };
 
 export const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const { totalNumberOfItems } = useBasketStore();
+
+  const pathname = usePathname();
 
   return (
     <>
@@ -176,12 +180,12 @@ export const Header = () => {
           <div className='space-y-6 border-t border-gray-200 px-4 py-6'>
             {navigation.pages.map((page) => (
               <div key={page.name} className='flow-root'>
-                <a
+                <Link
                   href={page.href}
                   className='-m-2 block p-2 font-medium text-gray-900'
                 >
                   {page.name}
-                </a>
+                </Link>
               </div>
             ))}
           </div>
@@ -276,6 +280,20 @@ export const Header = () => {
                             </div>
                           </NavigationMenuContent>
                         </NavigationMenuItem>
+                      ))}
+
+                      {/* page navigation */}
+                      {navigation.pages.map((page) => (
+                        <Link
+                          key={page.name}
+                          href={page.href}
+                          className={cn(
+                            'block p-2 font-medium text-gray-900',
+                            page.href === pathname ? 'text-indigo-600' : '',
+                          )}
+                        >
+                          {page.name}
+                        </Link>
                       ))}
                     </NavigationMenuList>
                   </NavigationMenu>
