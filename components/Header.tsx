@@ -19,14 +19,13 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet';
 
-import { Menu, CircleHelp, ShoppingBagIcon, ChevronDown } from 'lucide-react';
+import { Menu, CircleHelp, ShoppingBagIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 import { useBasketStore } from '@/hooks/stores/useBasketStore';
 
 import { cn } from '@/lib/utils';
 
-const currencies = ['CAD', 'USD', 'AUD', 'EUR', 'GBP'];
 const navigation = {
   categories: [
     {
@@ -182,47 +181,18 @@ export const Header = () => {
               <div key={page.name} className='flow-root'>
                 <Link
                   href={page.href}
-                  className='-m-2 block p-2 font-medium text-gray-900'
+                  className={cn(
+                    '-m-2 block p-2 font-medium text-gray-900',
+                    page.href === pathname ? 'text-indigo-600' : '',
+                  )}
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                  }}
                 >
                   {page.name}
                 </Link>
               </div>
             ))}
-          </div>
-
-          <div className='space-y-6 border-t border-gray-200 px-4 py-6'>
-            <div className='flow-root'>
-              <a href='#' className='-m-2 block p-2 font-medium text-gray-900'>
-                Create an account
-              </a>
-            </div>
-            <div className='flow-root'>
-              <a href='#' className='-m-2 block p-2 font-medium text-gray-900'>
-                Sign in
-              </a>
-            </div>
-          </div>
-
-          <div className='space-y-6 border-t border-gray-200 px-4 py-6'>
-            {/* Currency selector */}
-            <form>
-              <div className='-ml-2 inline-grid grid-cols-1'>
-                <select
-                  id='mobile-currency'
-                  name='currency'
-                  aria-label='Currency'
-                  className='col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-0.5 pl-2 pr-7 text-base font-medium text-gray-700 focus:outline focus:outline-2 group-hover:text-gray-800 sm:text-sm/6'
-                >
-                  {currencies.map((currency) => (
-                    <option key={currency}>{currency}</option>
-                  ))}
-                </select>
-                <ChevronDown
-                  aria-hidden='true'
-                  className='pointer-events-none col-start-1 row-start-1 mr-1 size-5 self-center justify-self-end fill-gray-500'
-                />
-              </div>
-            </form>
           </div>
         </SheetContent>
       </Sheet>
@@ -284,16 +254,17 @@ export const Header = () => {
 
                       {/* page navigation */}
                       {navigation.pages.map((page) => (
-                        <Link
-                          key={page.name}
-                          href={page.href}
-                          className={cn(
-                            'block p-2 font-medium text-gray-900',
-                            page.href === pathname ? 'text-indigo-600' : '',
-                          )}
-                        >
-                          {page.name}
-                        </Link>
+                        <li key={`page-link-header-${page.name}`}>
+                          <Link
+                            href={page.href}
+                            className={cn(
+                              'block p-2 font-medium text-gray-900',
+                              page.href === pathname ? 'text-indigo-600' : '',
+                            )}
+                          >
+                            {page.name}
+                          </Link>
+                        </li>
                       ))}
                     </NavigationMenuList>
                   </NavigationMenu>
