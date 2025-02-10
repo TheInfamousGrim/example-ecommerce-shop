@@ -1,0 +1,12 @@
+dist
+.next
+node_modules
+README.md
+.gitignore
+package.json
+package-lock.json
+pnpm-lock.yaml
+/.vscode/
+/.idea/
+app/components/ui
+components.json
