@@ -10,6 +10,7 @@
     "lint:fix": "next lint --fix",
     "prettier:check": "prettier --ignore-unknown --check .",
     "prettier:fix": "prettier --ignore-unknown --write .",
+    "check-types": "tsc --project tsconfig.json --pretty --noEmit",
     "commit": "cz",
     "test": "vitest"
   },
