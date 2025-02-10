@@ -93,7 +93,7 @@ I've used ShadCN as I was using tailwind anyway. This is built on top of Radix U
 
 I've tested the application using lighthouse to check for accessiblity issues and on the home page it's at 100%.
 
-Obviously if I had more time I would've used a more comprehensive accessibility testing tool.
+Obviously if I had more time I would've used a more comprehensive accessibility testing tool. For instance I'd use [axe](https://www.deque.com/axe/) or something similar.
 
 ## Testing
 
