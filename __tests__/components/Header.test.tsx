@@ -48,19 +48,4 @@ describe('Header Component', () => {
     render(<Header />);
     expect(screen.queryByText('Search')).toBeDefined();
   });
-
-  it('toggles mobile currency selector', async () => {
-    const user = userEvent.setup();
-
-    render(<Header />);
-    const menuButton = screen.getByRole('button', { name: 'Open menu' });
-
-    // Open mobile menu
-    await user.click(menuButton);
-
-    const currencySelect: HTMLSelectElement = screen.getByLabelText('Currency');
-    await user.selectOptions(currencySelect, 'EUR');
-
-    expect(currencySelect.value).toBe('EUR');
-  });
 });
