@@ -1,0 +1,49 @@
+name: Continuous Integration 🏗️
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  all-ci-checks:
+    name: Lint => Test => Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          run_install: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Audit Packages
+        run: pnpm audit --prod
+
+      - name: Run Linter
+        run: pnpm lint:check
+
+      - name: Run Tests
+        run: pnpm test
+
+      - name: Check Types
+        run: pnpm check-types
+
+      - name: Build in dev
+        id: build
+        run: pnpm build
